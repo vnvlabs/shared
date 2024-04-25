@@ -56,7 +56,7 @@ class ProvFile {
   }
 
   uint32_t getCurrentCRC32() {
-    return VnV::HashUtils::crc(filename);
+    return VnV::HashUtils::crc32(filename);
   }
 
 };

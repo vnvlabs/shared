@@ -69,6 +69,9 @@ bool mv(std::string oldFileName, std::string newFilename);
 bool cp(std::string oldFileName, std::string newFilename);
 bool ln(std::string oldFileName, std::string newFilename, bool hard = false);
 
+std::string copy_file(std::string oldFileName, std::string newFilename);
+
+
 std::string getEnvironmentVariable(std::string val, std::string def = "");
 
 std::string getTempFolder();

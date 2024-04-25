@@ -1,7 +1,7 @@
 
 #include <iostream>
-#include "Provenance.h"
-#include "Utilities.h"
+#include "shared/Provenance.h"
+#include "shared/Utilities.h"
 
 using namespace VnV;
 

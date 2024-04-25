@@ -3,9 +3,9 @@
   @file DistUtils.cpp
 **/
 
-#include "DistUtils.h"
-#include "Utilities.h"
-#include "exceptions.h"
+#include "shared/DistUtils.h"
+#include "shared/Utilities.h"
+#include "shared/exceptions.h"
 
 #include <sys/file.h>
 #include <unistd.h>
@@ -67,6 +67,50 @@ bool cp(std::string oldFileName, std::string newFilename) {
   dst << src.rdbuf();
   return true;
 }
+
+std::string copy_file(std::string input, std::string fileStub) {
+    
+    namespace fs = std::filesystem;
+    
+    // Define the source path
+    fs::path source_path(input);
+
+    // Define the destination directory
+    fs::path destination_directory = fileStub;
+
+    // Create the destination directory if it doesn't exist
+    if (!fs::exists(destination_directory)) {
+        fs::create_directories(destination_directory);
+    }
+
+    // Check if the input path exists
+    if (!fs::exists(source_path)) {
+        throw "Error";
+    }
+
+    // Construct the destination path
+    fs::path destination_path = destination_directory / source_path.filename();
+
+    try {
+        // Check if the source is a directory
+        if (fs::is_directory(source_path)) {
+            // Copy directory recursively
+            fs::copy(source_path, destination_path, fs::copy_options::recursive);
+            return destination_path;
+        } else if (fs::is_regular_file(source_path)) {
+            // Copy file
+            fs::copy_file(source_path, destination_path, fs::copy_options::overwrite_existing);
+            return destination_path;
+
+        } else {
+           throw "ERror";
+        }
+    } catch (const fs::filesystem_error& e) {
+        throw "Error";
+    }
+}
+
+
 bool ln(std::string oldFileName, std::string newFilename, bool hard) {
   if (hard) {
     std::filesystem::create_hard_link(oldFileName.c_str(), newFilename.c_str());

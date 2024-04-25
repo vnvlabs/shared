@@ -1,11 +1,17 @@
 
-target_sources(vnvreader  PUBLIC 
-  ${CMAKE_CURRENT_LIST_DIR}/INodes.cpp 
-  ${CMAKE_CURRENT_LIST_DIR}/ReaderImpl.cpp 
-  ${CMAKE_CURRENT_LIST_DIR}/PythonInterface.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/DistUtils.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/exceptions.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/Provenance.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/Utilities.cpp
+set(_my_dir ${CMAKE_CURRENT_LIST_DIR} CACHE INTERNAL "")
+
+function( add_shared_sources target)
+
+message("ADDING ${_my_dir}/DistUtils.cpp" )
+target_sources(${target}  PRIVATE 
+  ${_my_dir}/DistUtils.cpp
+  ${_my_dir}/exceptions.cpp
+  ${_my_dir}/Provenance.cpp
+  ${_my_dir}/Utilities.cpp
 
   )
+
+target_include_directories(${target} PRIVATE ${_my_dir}/../include)
+
+endfunction()

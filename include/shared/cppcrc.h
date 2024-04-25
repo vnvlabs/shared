@@ -70,8 +70,7 @@ namespace crc_utils
     template <typename out_t, out_t poly, out_t init, bool refl_in, bool refl_out, out_t x_or_out, typename std::enable_if<refl_in, int *>::type = nullptr>
     constexpr out_t calculate_crc(std::ifstream & stream, out_t crc = init)
     {
-        if (n == 0u) // check for the n==0 case up front, so that we can use --n instead of n--, gaining a slight speedup
-            return crc;
+      
         constexpr auto &lookup = crc_lookup_table<out_t, poly, refl_in, refl_out>().value;
         crc = reverse(crc);
                    
@@ -104,7 +103,7 @@ namespace crc_utils
        
         static constexpr uint32_t calc(std::ifstream &stream, uint32_t crc = init)
         {
-            return calculate_crc<poly, init, x_or_out>(stream, crc);
+            return calculate_crc<out_t, poly, init, true, true, x_or_out>(stream, crc);
         }
        
     };

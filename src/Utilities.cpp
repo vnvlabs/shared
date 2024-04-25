@@ -1,7 +1,7 @@
 ﻿/** @file Utilities.cpp **/
 
-#include "Utilities.h"
-#include "exceptions.h"
+#include "shared/Utilities.h"
+#include "shared/exceptions.h"
 
 #include <algorithm>
 #include <ctime>
@@ -18,7 +18,7 @@
 #include <random>
 #include <set>
 
-#include "cppcrc.h"
+#include "shared/cppcrc.h"
 
 using nlohmann::json;
 
@@ -459,7 +459,6 @@ std::size_t VnV::HashUtils::vectorHash(std::vector<int> const& vec) {
   return seed;
 }
 
-
 uint32_t VnV::HashUtils::crc32(std::string filename) {
 
     // calculate a checksum:
@@ -486,20 +485,6 @@ json VnV::JsonUtilities::load(std::string configFile) {
   return mainJson;
 }
 
-json VnV::JsonUtilities::load(std::string configFile) {
-  std::ifstream fstream(configFile);
-  json mainJson;
-  if (!fstream.good()) {
-    throw Exceptions::fileReadError(configFile);
-  }
-
-  try {
-    mainJson = json::parse(fstream);
-  } catch (json::parse_error e) {
-    throw Exceptions::parseError(fstream, e.byte, e.what());
-  }
-  return mainJson;
-}
 
 namespace VnV {
 namespace Log {

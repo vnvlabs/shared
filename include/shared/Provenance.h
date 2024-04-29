@@ -26,8 +26,8 @@ class ProvFile {
 
   ProvFile();
   ProvFile(const json& json);
-  ProvFile(std::string filename, std::string reader, std::string text = "");
-  ProvFile(VnV::DistUtils::libInfo lb, std::string reader);
+  ProvFile(std::string filename, std::string reader, std::string text = "", bool crc = false);  
+  ProvFile(VnV::DistUtils::libInfo lb, std::string reader,  bool crc = false);
 
   json toJson() const;
 

@@ -129,13 +129,18 @@ VnVProv::VnVProv(int argc, char **argv, std::string inputfileName, json &config)
   currentWorkingDirectory = DistUtils::getCurrentDirectory();
   time_in_seconds_since_epoch = time(NULL);
   commandLine = VnV::ProvenanceUtils::cmdLineToString(argc, argv);
-
+  executable->crc = VnV::HashUtils::crc32(argv[0]);
 }
 
 void VnVProv::setLibraries(const DistUtils::libData& lb) {
   for (auto it : lb.libs)
   {
     ProvFile pf(it, "binary");
+    try {
+      pf.crc = VnV::HashUtils::crc32(pf.filename);
+    } catch (...) {
+      pf.crc = 0;
+    }
     libraries.push_back(std::make_shared<ProvFile>(it, "binary"));
   }
 }

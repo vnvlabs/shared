@@ -168,7 +168,7 @@ namespace HashUtils {
 
 std::size_t vectorHash(std::vector<int> const& vec);
 
-uint32_t crc32(std::string filename);
+long crc32(std::string filename);
 
 }
 

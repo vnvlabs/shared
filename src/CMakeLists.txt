@@ -1,9 +1,12 @@
 
 set(_my_dir ${CMAKE_CURRENT_LIST_DIR} CACHE INTERNAL "")
 
+function( add_shared_includes target)
+target_include_directories(${target} PRIVATE ${_my_dir}/../include)
+endfunction()
+
 function( add_shared_sources target)
 
-message("ADDING ${_my_dir}/DistUtils.cpp" )
 target_sources(${target}  PRIVATE 
   ${_my_dir}/DistUtils.cpp
   ${_my_dir}/exceptions.cpp
@@ -12,6 +15,6 @@ target_sources(${target}  PRIVATE
 
   )
 
-target_include_directories(${target} PRIVATE ${_my_dir}/../include)
+  add_shared_includes(${target})
 
 endfunction()

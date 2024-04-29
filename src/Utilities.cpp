@@ -459,7 +459,8 @@ std::size_t VnV::HashUtils::vectorHash(std::vector<int> const& vec) {
   return seed;
 }
 
-uint32_t VnV::HashUtils::crc32(std::string filename) {
+long VnV::HashUtils::crc32(std::string filename) {
+
 
     // calculate a checksum:
     std::ifstream file(filename, std::ios::binary );
@@ -467,7 +468,9 @@ uint32_t VnV::HashUtils::crc32(std::string filename) {
     if (!file.is_open()) {
         throw "FileNotFound";
     }
-    return CRC32::CRC32::calc(file);
+    
+    auto a = CRC32::CRC32::calc(file);
+    return a;
 }
 
 json VnV::JsonUtilities::load(std::string configFile) {

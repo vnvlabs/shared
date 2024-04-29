@@ -64,7 +64,7 @@ ProvFile::ProvFile(const json& j) {
   this->package = j["package"].get<std::string>();
   this->name = j["name"].get<std::string>();
   this->copy = j.value("copy", false);
-  this->crc = j.value("crc", (uint32_t) 0);
+  this->crc = j.value("crc",0L);
 }
 
 json ProvFile::getDataChildren() const {
@@ -95,7 +95,7 @@ json ProvFile::getDataChildren() const {
     }
      {
       json j = json::object();
-      j["text"] = "CRC32: " + crc;
+      j["text"] = "CRC32: " + std::to_string(crc);
       j["icon"] = "feather icon-minus";
       o["children"].push_back(j);
     }

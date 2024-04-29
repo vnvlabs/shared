@@ -20,7 +20,7 @@ class ProvFile {
   std::string name = "<none>";
   bool copy = false;
   long comm = -1;
-  uint32_t crc = 0;
+  long crc = 0;
 
   VnV::DistUtils::libInfo info;
 
@@ -33,30 +33,8 @@ class ProvFile {
 
   json getDataChildren()const; 
 
-  std::string removeCommonPrefix(const std::string& path1, const std::string& path2) {
-    std::string result;
-    
-    size_t minLength = std::min(path1.size(), path2.size());
-    size_t i = 0;
-    
-    // Find the common prefix
-    while (i < minLength && path1[i] == path2[i]) {
-        i++;
-    }
-
-    // Extract the rest of path2 after the common prefix
-    result = path2.substr(i);
-
-    return result;
-}
-
-  void set_relative_to(std::string fileStub, std::string reportDirectory) {
-      auto a = removeCommonPrefix(fileStub, filename );
-      filename = reportDirectory + "/" + a;
-  }
-
-  uint32_t getCurrentCRC32() {
-    return VnV::HashUtils::crc32(filename);
+  long getCurrentCRC32(std::string file) {
+    return VnV::HashUtils::crc32(file);
   }
 
 };

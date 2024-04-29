@@ -7,7 +7,7 @@ using namespace VnV;
 
 ProvFile::ProvFile() {}
 
-ProvFile::ProvFile(std::string filename, std::string reader, std::string text)
+ProvFile::ProvFile(std::string filename, std::string reader, std::string text, bool calculate_crc)
 {
   this->filename = filename;
   this->reader = reader;
@@ -20,14 +20,31 @@ ProvFile::ProvFile(std::string filename, std::string reader, std::string text)
   catch (std::exception &e)
   {
   }
+
+  if (calculate_crc) {
+    try {
+      this->crc = HashUtils::crc32(filename);
+    } catch (...) {
+      this->crc = 0;
+    }
+  }
 }
 
-ProvFile::ProvFile(DistUtils::libInfo lb, std::string reader)
+ProvFile::ProvFile(DistUtils::libInfo lb, std::string reader, bool calculate_crc)
 {
   this->filename = lb.name;
   this->reader = reader;
   this->text = "";
   this->info = lb;
+  
+  if (calculate_crc) {
+    try {
+      this->crc = HashUtils::crc32(this->filename);
+    } catch (...) {
+      this->crc = 0;
+    }
+  }
+
 }
 
 json ProvFile::toJson() const
@@ -124,12 +141,12 @@ VnVProv::VnVProv(const json& j) {
 VnVProv::VnVProv(int argc, char **argv, std::string inputfileName, json &config)
 
 {
-  inputFile.reset(new ProvFile(inputfileName, "json", config.dump(4)));
-  executable.reset(new ProvFile(argv[0], "binary"));
+  inputFile.reset(new ProvFile(inputfileName, "json", config.dump(4), false));
+  executable.reset(new ProvFile(argv[0], "binary", "", true));
   currentWorkingDirectory = DistUtils::getCurrentDirectory();
   time_in_seconds_since_epoch = time(NULL);
   commandLine = VnV::ProvenanceUtils::cmdLineToString(argc, argv);
-  executable->crc = VnV::HashUtils::crc32(argv[0]);
+  
 }
 
 void VnVProv::setLibraries(const DistUtils::libData& lb) {

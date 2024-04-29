@@ -9,6 +9,7 @@
 
 #include <sys/file.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 #include <iostream>
 #include <sstream>
@@ -29,7 +30,14 @@ libInfo getLibInfo(std::string filepath, unsigned long add) {
     info.size = 0;
   }
   try {
-    info.timestamp = std::filesystem::last_write_time(filepath).time_since_epoch().count();
+
+    struct stat result;
+    stat(filepath.c_str(), &result);
+    info.timestamp = result.st_mtim.tv_sec;
+    
+    // Can use this once we go to C++20. Until then, the epoch time is not fixed to unix epoch time.
+    //info.timestamp = std::filesystem::last_write_time(filepath).time_since_epoch().count();
+
   } catch (...) {
     info.timestamp = 0;
   }
@@ -79,8 +87,8 @@ std::string copy_file(std::string input, std::string fileStub) {
     fs::path destination_directory = fileStub;
 
     // Create the destination directory if it doesn't exist
-    if (!fs::exists(destination_directory)) {
-        fs::create_directories(destination_directory);
+    if (!fs::exists(destination_directory.parent_path())) {
+        fs::create_directories(destination_directory.parent_path());
     }
 
     // Check if the input path exists
@@ -89,7 +97,7 @@ std::string copy_file(std::string input, std::string fileStub) {
     }
 
     // Construct the destination path
-    fs::path destination_path = destination_directory / source_path.filename();
+    fs::path destination_path = destination_directory;
 
     try {
         // Check if the source is a directory

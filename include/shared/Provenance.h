@@ -55,8 +55,8 @@ class ProvFile {
       filename = reportDirectory + "/" + a;
   }
 
-  uint32_t getCurrentCRC32() {
-    return VnV::HashUtils::crc32(filename);
+  uint32_t getCurrentCRC32(std::string file) {
+    return VnV::HashUtils::crc32(file);
   }
 
 };

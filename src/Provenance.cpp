@@ -87,8 +87,7 @@ ProvFile::ProvFile(const json& j) {
 json ProvFile::getDataChildren() const {
 
     json o = json::object();
-    std::cout << name.length() << "  sdfsdfsdfsdf " << std::endl;
-    o["text"] = name.length() == 0 ? filename : name;
+    o["text"] =  name.compare("<none>") == 0 ? filename : name;
     o["icon"] = "feather icon-file";
     o["children"] = json::array();
     

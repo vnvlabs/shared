@@ -87,7 +87,7 @@ ProvFile::ProvFile(const json& j) {
 json ProvFile::getDataChildren() const {
 
     json o = json::object();
-    o["text"] = name;
+    o["text"] = name.length() == 0 ? filename : name;
     o["icon"] = "feather icon-file";
     o["children"] = json::array();
     
@@ -101,19 +101,19 @@ json ProvFile::getDataChildren() const {
     {
       json j = json::object();
       j["text"] = "Package: " + package;
-      j["icon"] = "feather icon-minus";
+      j["icon"] = "feather icon-package";
       o["children"].push_back(j);
     }
     {
       json j = json::object();
       j["text"] = "Filename: " + filename;
-      j["icon"] = "feather icon-minus";
+      j["icon"] = "feather icon-file";
       o["children"].push_back(j);
     }
      {
       json j = json::object();
       j["text"] = "CRC32: " + std::to_string(crc);
-      j["icon"] = "feather icon-minus";
+      j["icon"] = "feather icon-hash";
       o["children"].push_back(j);
     }
     return o;

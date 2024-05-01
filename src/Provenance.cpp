@@ -188,12 +188,12 @@ json VnVProv::getDataChildren() const
 
   json wdir = json::object();
   wdir["text"] = "Working Directory: " + currentWorkingDirectory;
-  wdir["icon"] = "feather icon-text";
+  wdir["icon"] = "feather icon-compass";
   ch.push_back(wdir);
 
   json commandLineJ = json::object();
   commandLineJ["text"] = "Command Line: " + commandLine;
-  commandLineJ["icon"] = "feather icon-text";
+  commandLineJ["icon"] = "feather icon-code";
   ch.push_back(commandLineJ);
 
   if (inputFile != nullptr)
@@ -212,8 +212,7 @@ json VnVProv::getDataChildren() const
   for (int i = 0; i < names.size(); i++)
   {
 
-    const std::vector<std::shared_ptr<ProvFile>> &data = (i == 0) ? inputFiles : (i == 1) ? outputFiles
-                                                                                          : libraries;
+    const std::vector<std::shared_ptr<ProvFile>> &data = (i == 0) ? inputFiles : (i == 1) ? outputFiles : libraries;
 
     if (data.size() > 0)
     {
@@ -223,7 +222,7 @@ json VnVProv::getDataChildren() const
 
       int count = 0;
       json child = json::array();
-      for (auto &it : inputFiles)
+      for (auto &it : data)
       {
         child.push_back(it->getDataChildren());
         child.back()["text"] = std::to_string(count++) + ": " + child.back()["text"].template get<std::string>();

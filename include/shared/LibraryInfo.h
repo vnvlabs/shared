@@ -5,8 +5,6 @@
 
 #include "nlohmann/json.hpp"
 
-using nlohmann::json;
-
 namespace VnV {
 namespace DistUtils {
 
@@ -15,19 +13,21 @@ struct libInfo {
   long timestamp = 0;
   long size = 0;
 
-  json toJson() const {
-    json j = json::object();
+  #ifndef SWIG
+  nlohmann::json toJson() const {
+    nlohmann::json j = nlohmann::json::object();
     j["name"] = name;
     j["timestamp"] = timestamp;
     j["size"] = size;
     return j;
   }
 
-  void fromJson(const json& j) {
+  void fromJson(const nlohmann::json& j) {
     name = j["name"].get<std::string>();
     timestamp = j["timestamp"].get<long>();
     size = j["size"].get<long>();
   }
+  #endif 
 };
 
 struct libData {

@@ -101,7 +101,8 @@ namespace JSN {
   X(commInfo, z)                  \
   X(info, aa)                     \
   X(initializationStarted, ab)    \
-  X(initializationEnded, ac)
+  X(initializationEnded, ac)      \
+  X(stdout, ad)
 
 #define X(A, b) constexpr auto A = #b;
 NTYPES

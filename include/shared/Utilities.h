@@ -17,7 +17,7 @@
 #include <string>
 #include <vector>
 
-#include "nlohmann/json.hpp"
+#include "shared/json.hpp"
 
 namespace VnV {
   

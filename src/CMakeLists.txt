@@ -2,7 +2,7 @@
 set(_my_dir ${CMAKE_CURRENT_LIST_DIR} CACHE INTERNAL "")
 
 function( add_shared_includes target)
-target_include_directories(${target} PRIVATE ${_my_dir}/../include)
+target_include_directories(${target}  PRIVATE ${_my_dir}/../include)
 endfunction()
 
 function( add_shared_sources target)

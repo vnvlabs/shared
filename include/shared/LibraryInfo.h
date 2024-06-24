@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "nlohmann/json.hpp"
+#include "shared/json.hpp"
 
 namespace VnV {
 namespace DistUtils {

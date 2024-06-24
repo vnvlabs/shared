@@ -10,7 +10,7 @@
 
 #include "LibraryInfo.h"
 #include "Utilities.h"
-#include "nlohmann/json.hpp"
+#include "shared/json.hpp"
 
 using nlohmann::json;
 

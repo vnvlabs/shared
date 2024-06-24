@@ -7,7 +7,7 @@
 #include "DistUtils.h"
 
 # ifndef SWIG
-#include "nlohmann/json.hpp"
+#include "shared/json.hpp"
 using nlohmann::json;
 # endif
 

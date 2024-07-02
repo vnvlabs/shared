@@ -63,7 +63,7 @@ VnVExceptionBase fileReadError(std::string filename);
     }
 #endif
 
-// For debugging -- Anything that uses HTHROW has been handled (at least on this debugging pass. )
-#define HTHROW throw
+// For debugging -- Anything that uses throw has been handled (at least on this debugging pass. )
+#define throw throw
 
 #endif  // EXCEPTIONS_H

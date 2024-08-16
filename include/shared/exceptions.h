@@ -1,6 +1,8 @@
 ﻿#ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
 
+
+
 #include <stdio.h>
 
 #include <cstdarg>
@@ -42,6 +44,8 @@ VnVExceptionBase fileReadError(std::string filename);
 
 }  // namespace VnV
 
+#ifndef VNV_OFF
+
 #define INJECTION_EXCEPTION(format, ...) VnV::VnVExceptionBase(__FUNCTION__, __FILE__, __LINE__, format, __VA_ARGS__)
 
 #define INJECTION_EXCEPTION_(format) VnV::VnVExceptionBase(__FUNCTION__, __FILE__, __LINE__, format)
@@ -52,18 +56,31 @@ VnVExceptionBase fileReadError(std::string filename);
 
 #define INJECTION_BUG_REPORT(format, ...) VnV::VnVBugReport(__FUNCTION__, __FILE__, __LINE__, format, __VA_ARGS__)
 
-#ifdef NDEBUG
-#  define INJECTION_ASSERT(...)
-#else
-#  define INJECTION_ASSERT(condition, format, ...)                                                   \
+#define INJECTION_ASSERT(condition, format, ...)                                                   \
     if (!condition) {                                                                                \
       printf("Assert failed in function %s (file: %s, line %d\n", __FUNCTION__, __FILE__, __LINE__); \
       printf("Reason : " format, __VA_ARGS__);                                                       \
       std::terminate();                                                                              \
     }
-#endif
 
-// For debugging -- Anything that uses HTHROW has been handled (at least on this debugging pass. )
-#define HTHROW throw
+
+#define INJECTION_EXCEPTION(format, ...) VnV::VnVExceptionBase(__FUNCTION__, __FILE__, __LINE__, format, __VA_ARGS__)
+
+#define INJECTION_EXCEPTION_(format) VnV::VnVExceptionBase(__FUNCTION__, __FILE__, __LINE__, format)
+
+#define _INJECTION_EXCEPTION(format, ...) VnVExceptionBase(__FUNCTION__, __FILE__, __LINE__, format, __VA_ARGS__)
+
+#define INJECTION_BUG_REPORT_(format) VnV::VnVBugReport(__FUNCTION__, __FILE__, __LINE__, format)
+
+#define INJECTION_BUG_REPORT(format, ...) VnV::VnVBugReport(__FUNCTION__, __FILE__, __LINE__, format, __VA_ARGS__)
+
+#define INJECTION_ASSERT(condition, format, ...)                                                   \
+    if (!condition) {                                                                                \
+      printf("Assert failed in function %s (file: %s, line %d\n", __FUNCTION__, __FILE__, __LINE__); \
+      printf("Reason : " format, __VA_ARGS__);                                                       \
+      std::terminate();                                                                              \
+    }
+
+#endif 
 
 #endif  // EXCEPTIONS_H

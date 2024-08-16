@@ -44,7 +44,6 @@ VnVExceptionBase fileReadError(std::string filename);
 
 }  // namespace VnV
 
-#ifndef VNV_OFF
 
 #define INJECTION_EXCEPTION(format, ...) VnV::VnVExceptionBase(__FUNCTION__, __FILE__, __LINE__, format, __VA_ARGS__)
 
@@ -82,5 +81,3 @@ VnVExceptionBase fileReadError(std::string filename);
     }
 
 #endif 
-
-#endif  // EXCEPTIONS_H
